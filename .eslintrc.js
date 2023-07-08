@@ -29,6 +29,7 @@ module.exports = {
     "import/no-unresolved": 0,
     "indent": ["error", 2],
     "new-cap": 0,
-    "no-tabs": 0
+    "no-tabs": 0,
+    "no-useless-escape": 0
   },
 };

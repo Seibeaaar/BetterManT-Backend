@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import {buildRegex, nameRegex} from "../utils/regex";
+import {buildRegex, NAME_REGEX} from "../utils/regex";
 import {
   primaryGoal,
   physicalGoals,
@@ -17,15 +17,18 @@ const UserCreatePattern = {
   firstName: yup
     .string()
     .required("First name required")
-    .matches(nameRegex, "Invalid first name")
+    .matches(NAME_REGEX, "Invalid first name")
     .min(2, "First name at least 2 characters")
     .max(32, "First name should not include more than 32 characters"),
   lastName: yup
     .string()
     .required("Last name required")
-    .matches(nameRegex, "Invalid last name")
+    .matches(NAME_REGEX, "Invalid last name")
     .min(2, "Last name at least 2 characters")
     .max(32, "Last name should not include more than 32 characters"),
+};
+
+const SurveyCompletePattern = {
   primaryGoal: yup
     .string()
     .required("Primary goal required")
@@ -57,4 +60,5 @@ export const UserCreateSchema = yup.object({
 
 export const UserUpdateSchema = yup.object({
   ...UserCreatePattern,
+  ...SurveyCompletePattern,
 });
