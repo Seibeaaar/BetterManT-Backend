@@ -30,6 +30,6 @@ module.exports = {
     "indent": ["error", 2],
     "new-cap": 0,
     "no-tabs": 0,
-    "no-useless-escape": 0
+    "no-useless-escape": 0,
   },
 };
