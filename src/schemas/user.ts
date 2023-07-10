@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import * as moment from "moment";
 import {buildRegex, NAME_REGEX} from "../utils/regex";
 import {
   primaryGoal,
@@ -35,27 +36,33 @@ const SurveyCompletePattern = {
     .matches(buildRegex(primaryGoal), "Invalid primary goal"),
   gender: yup.string().required("Gender required").matches(buildRegex(genders)),
   dateOfBirth: yup
-    .string()
+    .date()
     .required("DOB required")
-    .test((value) => {
-      new Date(value).toString() !== "Invalid Date";
-    }),
+    .min(moment().subtract(99, "y"))
+    .max(moment().subtract(13, "y"), "You must be 13 or older to use the app"),
   mentalGoal: yup
-    .string()
-    .required("Mental goal required")
-    .matches(buildRegex(mentalGoals)),
+    .array()
+    .of(yup.string().matches(buildRegex(mentalGoals)))
+    .required()
+    .min(2),
   physicalGoal: yup
-    .string()
-    .required("Physical goal required")
-    .matches(buildRegex(physicalGoals)),
+    .array()
+    .of(yup.string().matches(buildRegex(physicalGoals)))
+    .required()
+    .min(2),
   desiredTraits: yup
     .array()
     .of(yup.string().matches(buildRegex(mentalTraits)))
-    .required(),
+    .required()
+    .min(5),
 };
 
 export const UserCreateSchema = yup.object({
   ...UserCreatePattern,
+});
+
+export const CompleteSurveySchema = yup.object({
+  ...SurveyCompletePattern,
 });
 
 export const UserUpdateSchema = yup.object({

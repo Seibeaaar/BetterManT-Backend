@@ -1,6 +1,10 @@
 import * as admin from "firebase-admin";
 import {Request, Response, NextFunction} from "express";
-import {UserCreateSchema, UserUpdateSchema} from "../schemas/user";
+import {
+  CompleteSurveySchema,
+  UserCreateSchema,
+  UserUpdateSchema,
+} from "../schemas/user";
 
 export const verifyToken = async (
   req: Request,
@@ -29,6 +33,19 @@ export const validateUserCreate = async (
 ) => {
   try {
     await UserCreateSchema.validate(req.body);
+    next();
+  } catch (e: any) {
+    res.status(400).send(e.message);
+  }
+};
+
+export const validateCompleteSurvey = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    await CompleteSurveySchema.validate(req.body);
     next();
   } catch (e: any) {
     res.status(400).send(e.message);
