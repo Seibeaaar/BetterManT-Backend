@@ -4,6 +4,8 @@ import {
   CompleteSurveySchema,
   UserCreateSchema,
   UserUpdateSchema,
+  ImperialSystemSchema,
+  MetricSystemSchema,
 } from "../schemas/user";
 
 export const verifyToken = async (
@@ -59,6 +61,24 @@ export const validateUserUpdate = async (
 ) => {
   try {
     await UserUpdateSchema.validate(req.body);
+    next();
+  } catch (e: any) {
+    res.status(400).send(e.message);
+  }
+};
+
+export const validateUserMetrics = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // We only use height measure to check since if a user selects
+    // imperial system - other data will use imperial system too
+    const {heightUnit} = req.body;
+    const validationSchema =
+			heightUnit === "in" ? ImperialSystemSchema : MetricSystemSchema;
+    await validationSchema.validate(req.body);
     next();
   } catch (e: any) {
     res.status(400).send(e.message);

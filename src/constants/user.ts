@@ -31,3 +31,6 @@ export const mentalTraits = [
   "confidence",
   "courage",
 ];
+
+export const heightUnits = ["cm", "in"];
+export const weightUnits = ["kg", "lbs"];

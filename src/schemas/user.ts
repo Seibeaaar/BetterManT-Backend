@@ -7,6 +7,8 @@ import {
   mentalGoals,
   mentalTraits,
   genders,
+  heightUnits,
+  weightUnits,
 } from "../constants/user";
 
 const UserCreatePattern = {
@@ -63,6 +65,46 @@ export const UserCreateSchema = yup.object({
 
 export const CompleteSurveySchema = yup.object({
   ...SurveyCompletePattern,
+});
+
+export const MetricSystemSchema = yup.object({
+  height: yup
+    .number()
+    .min(120, "Minimum height is 120cm")
+    .max(250, "Maximum height is 250cm"),
+  weight: yup
+    .number()
+    .min(30, "Minimum weight is 30kg")
+    .max(250, "Maximum weight is 250kg"),
+  heightUnit: yup
+    .string()
+    .required()
+    .matches(buildRegex(heightUnits), "Invalid height unit"),
+  weightUnit: yup
+    .string()
+    .required()
+    .matches(buildRegex(weightUnits), "Invalid weight unit"),
+});
+
+export const ImperialSystemSchema = yup.object({
+  height: yup
+    .number()
+    .required()
+    .min(47, "Minimum height is 47in")
+    .max(99, "Maximum height is 99in"),
+  weight: yup
+    .number()
+    .required()
+    .min(66, "Minimum weight is 66lbs")
+    .max(551, "Maximum weight is 551lbs"),
+  heightUnit: yup
+    .string()
+    .required()
+    .matches(buildRegex(heightUnits), "Invalid height unit"),
+  weightUnit: yup
+    .string()
+    .required()
+    .matches(buildRegex(weightUnits), "Invalid weight unit"),
 });
 
 export const UserUpdateSchema = yup.object({
