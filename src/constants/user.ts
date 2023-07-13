@@ -34,3 +34,5 @@ export const mentalTraits = [
 
 export const heightUnits = ["cm", "in"];
 export const weightUnits = ["kg", "lbs"];
+
+export const personalityTypes = ["introvert", "extrovert", "between"];

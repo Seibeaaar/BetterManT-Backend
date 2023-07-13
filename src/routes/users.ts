@@ -4,7 +4,6 @@ import {
   verifyToken,
   validateUserCreate,
   validateCompleteSurvey,
-  validateUserMetrics,
 } from "../middlewares/user";
 
 const users = Router();
@@ -40,25 +39,6 @@ users.post("/survey", verifyToken, validateCompleteSurvey, async (req, res) => {
     const user = await Database.update("users", userId, {
       ...req.body,
       surveyCompleted: true,
-    });
-    res.status(200).send(user);
-  } catch (e) {
-    res.status(500).send("Something went wrong");
-  }
-});
-
-users.put("/metrics", verifyToken, validateUserMetrics, async (req, res) => {
-  try {
-    const userId = res.locals as unknown as string;
-    const user = await Database.update("users", userId, {
-      heigth: {
-        value: req.body.height,
-        unit: req.body.heightUnit,
-      },
-      weight: {
-        value: req.body.weight,
-        unit: req.body.weightUnit,
-      },
     });
     res.status(200).send(user);
   } catch (e) {
